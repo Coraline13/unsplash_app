@@ -27,4 +27,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   @nullable
   String get selectedPhoto;
+
+  @nullable
+  String get color;
 }
