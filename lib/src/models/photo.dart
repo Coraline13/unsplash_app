@@ -15,5 +15,18 @@ abstract class Photo implements Built<Photo, PhotoBuilder> {
 
   Photo._();
 
+  int get id;
+
+  int get width;
+
+  int get height;
+
+  String get description;
+
+  @BuiltValueField(wireName: 'alt_description')
+  String get altDescription;
+
+  Map<String, String> get urls;
+
   static Serializer<Photo> get serializer => _$photoSerializer;
 }
