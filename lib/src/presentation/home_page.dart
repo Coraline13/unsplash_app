@@ -1,8 +1,12 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:unsplash_app/src/actions/set_selected_photo.dart';
 import 'package:unsplash_app/src/containers/is_loading_container.dart';
 import 'package:unsplash_app/src/containers/page_container.dart';
 import 'package:unsplash_app/src/containers/photos_container.dart';
+import 'package:unsplash_app/src/models/app_state.dart';
 import 'package:unsplash_app/src/models/photo.dart';
 
 class HomePage extends StatelessWidget {
@@ -33,16 +37,29 @@ class HomePage extends StatelessWidget {
                             return Column(
                               children: <Widget>[
                                 Expanded(
-                                  child: GridView.builder(
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  child: StaggeredGridView.builder(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(16.0),
+                                    gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
+                                      staggeredTileBuilder: (_) => const StaggeredTile.fit(1),
                                       crossAxisCount: 2,
+                                      crossAxisSpacing: 16.0,
+                                      mainAxisSpacing: 16.0,
                                     ),
-                                    itemCount: photos.length,
+                                    itemCount: 20,
                                     itemBuilder: (BuildContext context, int index) {
                                       final Photo photo = photos[index];
-
-                                      return GridTile(
-                                        child: Image.network(photo.urls['small']),
+                                      return InkWell(
+                                        onTap: () async {
+                                          StoreProvider.of<AppState>(context).dispatch(SetSelectedPhoto(photo.id));
+                                          Navigator.pushNamed(context, '/photoDetail');
+                                        },
+                                        child: GridTile(
+                                          child: Hero(
+                                            tag: '${photo.id}',
+                                            child: Image.network(photo.urls['small']),
+                                          ),
+                                        ),
                                       );
                                     },
                                   ),

@@ -24,4 +24,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
   int get nextPage;
 
   bool get isLoading;
+
+  @nullable
+  String get selectedPhoto;
 }

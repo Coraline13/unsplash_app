@@ -1,4 +1,5 @@
 import 'package:unsplash_app/src/actions/get_photos.dart';
+import 'package:unsplash_app/src/actions/set_selected_photo.dart';
 import 'package:unsplash_app/src/models/app_state.dart';
 
 AppState reducer(AppState state, dynamic action) {
@@ -14,6 +15,8 @@ AppState reducer(AppState state, dynamic action) {
       ..nextPage = builder.nextPage + 1;
   } else if (action is GetPhotosError) {
     builder.isLoading = false;
+  } else if (action is SetSelectedPhoto) {
+    builder.selectedPhoto = action.photoId;
   }
 
   return builder.build();

@@ -25,10 +25,13 @@ abstract class Photo implements Built<Photo, PhotoBuilder> {
   @nullable
   String get description;
 
+  @nullable
   @BuiltValueField(wireName: 'alt_description')
   String get altDescription;
 
   BuiltMap<String, String> get urls;
+
+  // BuiltMap<String,  JsonObject> get user;
 
   static Serializer<Photo> get serializer => _$photoSerializer;
 }

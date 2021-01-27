@@ -19,23 +19,28 @@ class _$PhotoSerializer implements StructuredSerializer<Photo> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      serializers.serialize(object.id, specifiedType: const FullType(String)),
       'width',
       serializers.serialize(object.width, specifiedType: const FullType(int)),
       'height',
       serializers.serialize(object.height, specifiedType: const FullType(int)),
-      'description',
-      serializers.serialize(object.description,
-          specifiedType: const FullType(String)),
-      'alt_description',
-      serializers.serialize(object.altDescription,
-          specifiedType: const FullType(String)),
       'urls',
       serializers.serialize(object.urls,
-          specifiedType: const FullType(
-              Map, const [const FullType(String), const FullType(String)])),
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(String), const FullType(String)])),
     ];
-
+    if (object.description != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(object.description,
+            specifiedType: const FullType(String)));
+    }
+    if (object.altDescription != null) {
+      result
+        ..add('alt_description')
+        ..add(serializers.serialize(object.altDescription,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -52,7 +57,7 @@ class _$PhotoSerializer implements StructuredSerializer<Photo> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(String)) as String;
           break;
         case 'width':
           result.width = serializers.deserialize(value,
@@ -71,11 +76,9 @@ class _$PhotoSerializer implements StructuredSerializer<Photo> {
               specifiedType: const FullType(String)) as String;
           break;
         case 'urls':
-          result.urls = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(String)
-              ])) as Map<String, String>;
+          result.urls.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(String), const FullType(String)])));
           break;
       }
     }
@@ -86,7 +89,7 @@ class _$PhotoSerializer implements StructuredSerializer<Photo> {
 
 class _$Photo extends Photo {
   @override
-  final int id;
+  final String id;
   @override
   final int width;
   @override
@@ -96,7 +99,7 @@ class _$Photo extends Photo {
   @override
   final String altDescription;
   @override
-  final Map<String, String> urls;
+  final BuiltMap<String, String> urls;
 
   factory _$Photo([void Function(PhotoBuilder) updates]) =>
       (new PhotoBuilder()..update(updates)).build();
@@ -117,12 +120,6 @@ class _$Photo extends Photo {
     }
     if (height == null) {
       throw new BuiltValueNullFieldError('Photo', 'height');
-    }
-    if (description == null) {
-      throw new BuiltValueNullFieldError('Photo', 'description');
-    }
-    if (altDescription == null) {
-      throw new BuiltValueNullFieldError('Photo', 'altDescription');
     }
     if (urls == null) {
       throw new BuiltValueNullFieldError('Photo', 'urls');
@@ -174,9 +171,9 @@ class _$Photo extends Photo {
 class PhotoBuilder implements Builder<Photo, PhotoBuilder> {
   _$Photo _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  String _id;
+  String get id => _$this._id;
+  set id(String id) => _$this._id = id;
 
   int _width;
   int get width => _$this._width;
@@ -195,9 +192,10 @@ class PhotoBuilder implements Builder<Photo, PhotoBuilder> {
   set altDescription(String altDescription) =>
       _$this._altDescription = altDescription;
 
-  Map<String, String> _urls;
-  Map<String, String> get urls => _$this._urls;
-  set urls(Map<String, String> urls) => _$this._urls = urls;
+  MapBuilder<String, String> _urls;
+  MapBuilder<String, String> get urls =>
+      _$this._urls ??= new MapBuilder<String, String>();
+  set urls(MapBuilder<String, String> urls) => _$this._urls = urls;
 
   PhotoBuilder();
 
@@ -208,7 +206,7 @@ class PhotoBuilder implements Builder<Photo, PhotoBuilder> {
       _height = _$v.height;
       _description = _$v.description;
       _altDescription = _$v.altDescription;
-      _urls = _$v.urls;
+      _urls = _$v.urls?.toBuilder();
       _$v = null;
     }
     return this;
@@ -229,14 +227,27 @@ class PhotoBuilder implements Builder<Photo, PhotoBuilder> {
 
   @override
   _$Photo build() {
-    final _$result = _$v ??
-        new _$Photo._(
-            id: id,
-            width: width,
-            height: height,
-            description: description,
-            altDescription: altDescription,
-            urls: urls);
+    _$Photo _$result;
+    try {
+      _$result = _$v ??
+          new _$Photo._(
+              id: id,
+              width: width,
+              height: height,
+              description: description,
+              altDescription: altDescription,
+              urls: urls.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'urls';
+        urls.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Photo', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
