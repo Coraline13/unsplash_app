@@ -22,6 +22,8 @@ abstract class Photo implements Built<Photo, PhotoBuilder> {
 
   int get height;
 
+  int get likes;
+
   @nullable
   String get description;
 
