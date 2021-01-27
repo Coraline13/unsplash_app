@@ -27,7 +27,8 @@ class AppMiddleware {
         );
         final GetPhotosSuccessful successful = GetPhotos.successful(photos);
         store.dispatch(successful);
-      } catch (e) {
+      } catch (e, stacktrace) {
+        print('STACKTRACE: $stacktrace');
         final GetPhotosError error = GetPhotos.error(e);
         store.dispatch(error);
       }

@@ -1,8 +1,8 @@
-import 'package:atelieruldigital_flutter/src/06/homework/src/actions/get_photos.dart';
-import 'package:atelieruldigital_flutter/src/06/homework/src/models/app_state.dart';
+import 'package:unsplash_app/src/actions/get_photos.dart';
+import 'package:unsplash_app/src/models/app_state.dart';
 
 AppState reducer(AppState state, dynamic action) {
-  print('action: $action');
+  print('ACTION: $action');
   final AppStateBuilder builder = state.toBuilder();
 
   if (action is GetPhotosStart) {

@@ -1,5 +1,6 @@
 library photo;
 
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:unsplash_app/src/models/serializers.dart';
@@ -15,18 +16,19 @@ abstract class Photo implements Built<Photo, PhotoBuilder> {
 
   Photo._();
 
-  int get id;
+  String get id;
 
   int get width;
 
   int get height;
 
+  @nullable
   String get description;
 
   @BuiltValueField(wireName: 'alt_description')
   String get altDescription;
 
-  Map<String, String> get urls;
+  BuiltMap<String, String> get urls;
 
   static Serializer<Photo> get serializer => _$photoSerializer;
 }
