@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:unsplash_app/src/actions/get_photos.dart';
 import 'package:unsplash_app/src/actions/set_selected_photo.dart';
 import 'package:unsplash_app/src/containers/is_loading_container.dart';
 import 'package:unsplash_app/src/containers/page_container.dart';
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
                                       crossAxisSpacing: 16.0,
                                       mainAxisSpacing: 16.0,
                                     ),
-                                    itemCount: 20,
+                                    itemCount: photos.length,
                                     itemBuilder: (BuildContext context, int index) {
                                       final Photo photo = photos[index];
                                       return InkWell(
@@ -101,6 +102,12 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   ),
+                                ),
+                                FlatButton(
+                                  child: const Text('Load more'),
+                                  onPressed: () {
+                                    StoreProvider.of<AppState>(context).dispatch(const GetPhotos());
+                                  },
                                 ),
                               ],
                             );
